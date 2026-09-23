@@ -214,8 +214,10 @@ const PCT = n => (n>0?'+':'') + n.toFixed(1) + '%';
 // Holdings reconstructed from CMC trade confirmations (units) + portfolio.csv (prices).
 const holdings = __HOLDINGS__;
 // Daily ASX closes (AUD), from account open through latest — source: Hermes / yfinance.
-// NOTE: Hermes's etf_prices file had the VGE and VEQ columns swapped; corrected here
-// so column order is [date, IVV, PMGOLD, VGE, VEQ] with VGE=EM, VEQ=Europe.
+// Column order is [date, IVV, PMGOLD, VGE, VEQ, VGS]. The source etf_prices CSV uses
+// header order Date,IVV,PMGOLD,VEQ,VGE,VGS; the generator maps each ticker to its
+// column by matching the latest close against the holdings current price, so output is
+// always emitted in this canonical order regardless of the CSV's column order.
 const PRICES = __PRICES__;
 // Time-weighted-return series for the Overall line (null unless portfolio.json supplied).
 // Aligned 1:1 with PRICES rows; chains the daily return of the units actually held each day.
